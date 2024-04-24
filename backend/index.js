@@ -9,7 +9,7 @@ import { Book } from "./models/book.js";
 //? Includes initializing that the app will use express
 
 //! Connecting MongoDB / Mongoose db to the app
-//? With express, you can 
+//? With express, you can create the routes and connect to MongoDB / Mongoose. 
 
 const app = express();
 
@@ -23,10 +23,10 @@ app.use(express.json());
 
 //* Routes for Saving a new Book
 
-//! Create a Book
+//! Create a Book Route
 app.post('/books', async (request, response) => {
     try {
-        
+        //! If the request body's title, author, year published and summary do not exist, send a message.
         if (!request.body.title || 
             !request.body.author ||
             !request.body.yearPublished ||
@@ -35,6 +35,7 @@ app.post('/books', async (request, response) => {
                     message: 'Please submit all required fields: Title, Author, Year Published, and Summary.'
                 })
             }
+        //! Otherwise, create a new book with the request body's title, author, year published, and summary
         const newBook = {
             title: request.body.title,
             author: request.body.author,
@@ -42,8 +43,10 @@ app.post('/books', async (request, response) => {
             summary: request.body.summary,
         }
 
+        //! Then with that info, we create a new book
         const createdBook = await Book.create(newBook);
 
+        //! Then we return the response with a status of 201 with that createdBook
         return response.status(201).send(createdBook)
 
     } catch (error) {
