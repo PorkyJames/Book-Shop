@@ -21,8 +21,9 @@ app.get("/", (request, response) => {
 // Middleware for parsing request body
 app.use(express.json());
 
-// Routes for Saving a new Book
+//* Routes for Saving a new Book
 
+//! Create a Book
 app.post('/books', async (request, response) => {
     try {
         
@@ -52,6 +53,27 @@ app.post('/books', async (request, response) => {
         )
     }
 })
+
+
+//! Get all Books
+app.get('/books', async(request, response) => {
+    try {
+        const books = await Book.find()
+
+        return response.status(200).send({
+            count: books.length,
+            data: books
+        })
+
+    } catch(error) {
+        console.log(error.message);
+        response.status(500).send({
+            message: error.message
+        })
+    }
+})
+
+
 
 mongoose
     .connect(mongoDBURL)
