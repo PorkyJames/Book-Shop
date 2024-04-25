@@ -57,7 +57,6 @@ app.post('/books', async (request, response) => {
     }
 })
 
-
 //! Get all Books
 app.get('/books', async(request, response) => {
     try {
@@ -70,6 +69,26 @@ app.get('/books', async(request, response) => {
 
     } catch(error) {
         console.log(error.message);
+        response.status(500).send({
+            message: error.message
+        })
+    }
+})
+
+//! Get book by ID
+app.get('/books/:bookId', async (request, response) => {
+    try {
+        //! Our ID is whatever is listed in our parameters of our URL
+        const { bookId } = request.params;
+
+        //! Then our book that we have we'll throw into a variable and find it using findById
+        const book = await Book.findById(bookId)
+
+        //! Then we can just return the book to the client
+        return response.status(200).send(book)
+
+    } catch (error) {
+        console.log(error.message)
         response.status(500).send({
             message: error.message
         })
