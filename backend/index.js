@@ -97,6 +97,8 @@ app.get('/books/:bookId', async (request, response) => {
 
 
 //! Connect to the Mongoose Database
+//! Remember to import the mongoDBURL to connect to our Mongo Database.
+//! Also include the console.log for the "App is listening" to ensure that it works fluidly
 mongoose
     .connect(mongoDBURL)
     .then(() => {
