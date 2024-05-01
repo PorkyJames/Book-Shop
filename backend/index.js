@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 
 //! Import Models
 import { Book } from "./models/book.js";
+import { Review } from "./models/review.js";
 
 //! Basic set up for Express Backend
 //? Includes initializing that the app will use express
@@ -89,6 +90,23 @@ app.get('/books/:bookId', async (request, response) => {
 
     } catch (error) {
         console.log(error.message)
+        response.status(500).send({
+            message: error.message
+        })
+    }
+})
+
+//! Get all Reviews
+app.get('/reviews', async (request, response) => {
+    try {
+        const reviews = await Review.find()
+
+        return response.status(200).send({
+            count: reviews.length,
+            data: reviews
+        })
+    } catch {
+        console.log(error.message);
         response.status(500).send({
             message: error.message
         })
